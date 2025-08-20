@@ -67,10 +67,7 @@ stages:
       name: default
     jobs:
       - job: push
-        variables:
-          DOCKER_USER: $(DOCKER_USER)
-          DOCKER_PASS: $(DOCKER_PASS)
-
+ 
         steps:
           - download: current
             artifact: image-tar
@@ -82,6 +79,9 @@ stages:
           - script: |
               echo "$DOCKER_PASS" | docker login $(registry) -u "$DOCKER_USER" --password-stdin
             displayName: Docker Login
+            env:
+              DOCKER_USER: $(DOCKER_USER)
+              DOCKER_PASS: $(DOCKER_PASS)
 
           - script: | 
               docker tag $(repository):$(tag) $(registry)/$(repository):$(tag)

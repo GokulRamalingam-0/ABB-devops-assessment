@@ -40,6 +40,38 @@ stages:
           - publish: $(Build.ArtifactStagingDirectory)/image.tar.gz
             artifact: image-tar
 
+  # ----------------------------------------------------------
+#  NEW TEST STAGE
+# ----------------------------------------------------------
+  - stage: test
+    displayName: Unit tests
+    dependsOn: build
+    pool:            # keep using your SelfHosted agent
+      name: default
+    jobs:
+    - job: unit
+      displayName: Run unit tests
+      steps:
+      - checkout: self
+
+    # install deps – honour package-lock.json if present
+      - script: |
+          npm ci
+        displayName: npm install
+
+    # run tests and output JUnit XML named test-results.xml
+      - script: |
+          npm test -- --ci --reporter=junit --reporter-options "mochafile=test-results.xml"
+        displayName: Execute tests
+
+    # publish results so they appear in the Tests tab
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFormat: JUnit
+          testResultsFiles: '**/test-results.xml'
+          failTaskOnFailedTests: true
+        condition: succeededOrFailed()
+
 #---------------------------- Scan ---------------------------
   - stage: scan
     displayName: Scan with trivy

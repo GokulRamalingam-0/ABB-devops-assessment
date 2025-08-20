@@ -1,0 +1,103 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+variables:
+  registry: assessment.azurecr.io
+  repositroy: nodeapp
+  tag: "$(Build.BuildId)"
+
+stages:
+  - stage: build
+    displayName: "Build Docker Image"
+    jobs:
+      - job: checkout
+        displayName: Checkout from github repo
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - checkout: self
+          - task: Docker@2
+            displayName: Build Image
+            inputs:
+              command: build
+              Dockerfile: "Dockerfile"
+              repository: "$(repositroy)"
+              tags: |
+                $(tag)
+              containerRegistry: "none"
+              addPipelineData: false
+
+          - script: |
+              docker save $(repository):$(tag) | gzip > $(Build.ArtifcatStagingDirectory)/image.tar.gq
+            displayName: Export Image
+
+          - publish: "$(Build.ArtifactStagingDirectory/image.tar.gz)"
+            artifact: image.tar
+
+#---------------------------- Scan ---------------------------
+  - stage: scan
+    displayName: Scan with trivy
+    dependsOn: build
+    jobs:
+      - job: scan
+        pool:
+          vmImage: "ubuntu-latest"
+
+        steps:
+          - download: current
+            artifact: image.tar
+
+          - script: |
+              sudo apt-get update -qq
+              sudo apt-get install -yqq wget
+              wget -qO trivy.tar.gz https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.50.0_Linux-64bit.tar.gz
+              tar -xzf trivy.tar.gz trivy
+              sudo mv trivy /usr/local/bin/
+            displayName: Install trivy
+
+          - script: |
+              gunzip -c $(Pipeline.Workspace)/image-tar/image.tar.gz | docker load
+              trivy image --severity CRITICAL,HIGH --exit-code 1 $(repository):$(tag)
+            displayName: Run vulnerability scan
+
+#------------------- Push ----------------------------------
+
+  - stage: push
+    displayName: Push Image
+    dependsOn: scan
+    condition: succeeded()
+    jobs:
+      - job: push
+        pool:
+          vmImage: ubuntu-latest
+
+        variables:
+          DOCKER_USER: $(DOCKER_USER)
+          DOCKER_PASS: $(DOCKER_PASS)
+
+        steps:
+          - download: current
+            artifact: image.tar
+
+          - script: |
+              gunzip -c $(Pipeline.Workspace)/image-tar/image.tar.gz | docker load
+            displayName: Load image
+
+          - script: |
+              echo "$DOCKER_PASS" | docker login $(registry) -u "$DOCKER_USER" --password-stdin
+            displayName: Docker Login
+
+          - script: | 
+              docker tag $(repository):$(tag) $(registry)/$(repository):$(tag)
+              docker push $(registry)/$(repository):$(tag)
+            displayName: Tag & Push
+
+         
+      
+
+

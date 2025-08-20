@@ -14,11 +14,12 @@ variables:
 stages:
   - stage: build
     displayName: "Build Docker Image"
+    pool:
+      name: default
     jobs:
       - job: checkout
         displayName: Checkout from github repo
-        pool:
-          vmImage: ubuntu-latest
+
         steps:
           - checkout: self
           - task: Docker@2
@@ -43,11 +44,10 @@ stages:
   - stage: scan
     displayName: Scan with trivy
     dependsOn: build
+    pool:
+      name: default
     jobs:
       - job: scan
-        pool:
-          vmImage: "ubuntu-latest"
-
         steps:
           - download: current
             artifact: image.tar
@@ -71,11 +71,10 @@ stages:
     displayName: Push Image
     dependsOn: scan
     condition: succeeded()
+    pool:
+      name: default
     jobs:
       - job: push
-        pool:
-          vmImage: ubuntu-latest
-
         variables:
           DOCKER_USER: $(DOCKER_USER)
           DOCKER_PASS: $(DOCKER_PASS)

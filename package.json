@@ -3,6 +3,14 @@
   "version": "1.0.0",
   "description": "Node app that shows its pod hostname inside Kubernetes",
   "main": "app.js",
-  "scripts": { "start": "node app.js" },
-  "dependencies": { "express": "^4.18.2" }
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "mocha": "^11.7.1",
+    "mocha-junit-reporter": "^2.2.1"
+  }
 }

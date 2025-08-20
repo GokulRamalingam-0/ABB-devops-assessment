@@ -75,7 +75,7 @@ stages:
 #---------------------------- Scan ---------------------------
   - stage: scan
     displayName: Scan with trivy
-    dependsOn: build
+    dependsOn: test
     pool:
       name: default
     jobs:

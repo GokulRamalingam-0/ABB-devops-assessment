@@ -27,14 +27,14 @@ stages:
             inputs:
               command: build
               Dockerfile: "Dockerfile"
-              repository: "$(repositroy)"
+              repository: "$(repository)"
               tags: |
                 $(tag)
               #containerRegistry: "none"
               addPipelineData: false
 
           - script: |
-              docker save $(repository):$(tag) | gzip > $(Build.ArtifcatStagingDirectory)/image.tar.gq
+              docker save $(repository):$(tag) | gzip > $(Build.ArtifactStagingDirectory)/image.tar.gq
             displayName: Export Image
 
           - publish: "$(Build.ArtifactStagingDirectory/image.tar.gz)"

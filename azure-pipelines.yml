@@ -29,7 +29,7 @@ stages:
               repository: "$(repositroy)"
               tags: |
                 $(tag)
-              containerRegistry: "none"
+              #containerRegistry: "none"
               addPipelineData: false
 
           - script: |

@@ -38,7 +38,7 @@ stages:
             displayName: Export Image
 
           - publish: $(Build.ArtifactStagingDirectory)/image.tar.gz
-            artifact: image.tar
+            artifact: image-tar
 
 #---------------------------- Scan ---------------------------
   - stage: scan

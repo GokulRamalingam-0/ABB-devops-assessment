@@ -8,7 +8,7 @@ trigger:
 
 variables:
   registry: assessment.azurecr.io
-  repositroy: nodeapp
+  repository: nodeapp
   tag: "$(Build.BuildId)"
 
 stages:
@@ -34,7 +34,7 @@ stages:
               addPipelineData: false
 
           - script: |
-              docker save $(repository):$(tag) | gzip > $(Build.ArtifactStagingDirectory)/image.tar.gq
+              docker save $(repository):$(tag) | gzip > $(Build.ArtifactStagingDirectory)/image.tar.gz
             displayName: Export Image
 
           - publish: "$(Build.ArtifactStagingDirectory/image.tar.gz)"

@@ -37,7 +37,7 @@ stages:
               docker save $(repository):$(tag) | gzip > $(Build.ArtifactStagingDirectory)/image.tar.gz
             displayName: Export Image
 
-          - publish: "$(Build.ArtifactStagingDirectory/image.tar.gz)"
+          - publish: $(Build.ArtifactStagingDirectory)/image.tar.gz
             artifact: image.tar
 
 #---------------------------- Scan ---------------------------

@@ -143,9 +143,8 @@ stages:
       - deployment: deploy_prod
         displayName: Helm deploy to AKS
         environment:
-          name: prod                      # 👈 Must match your Environment name in Azure DevOps
-          resourceType: Kubernetes        # optional but nice if you've linked an AKS resource
-          #resourceName: your-aks-resource-name  # optional: only if you added this resource under the 'prod' environment
+          name: prod
+          resourceType: Kubernetes
         strategy:
           runOnce:
             deploy:

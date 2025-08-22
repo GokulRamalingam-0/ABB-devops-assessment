@@ -40,9 +40,7 @@ stages:
           - publish: $(Build.ArtifactStagingDirectory)/image.tar.gz
             artifact: image-tar
 
-  # ----------------------------------------------------------
-#  NEW TEST STAGE
-# ----------------------------------------------------------
+# ---------------------- Sample Unit Test ------------------------------------
   - stage: test
     displayName: Unit tests
     dependsOn: build
@@ -119,3 +117,27 @@ stages:
               docker tag $(repository):$(tag) $(registry)/$(repository):$(tag)
               docker push $(registry)/$(repository):$(tag)
             displayName: Tag & Push
+
+#------------------- Deploy to Web App (Dev) ---------------------------
+  - stage: deploy_dev
+    displayName: "Deploy to Azure Web App (Dev)"
+    dependsOn: build
+    condition: succeeded()
+    jobs:
+      - job: deploy_dev
+        displayName: "Deploy container to Azure Web App"
+        steps:
+          - task: AzureCLI@2
+            displayName: "Configure Web App container"
+            inputs:
+              azureSubscription: ''   # leave blank since no SC in KodeKloud
+              scriptType: bash
+              scriptLocation: inlineScript
+              inlineScript: |
+                az webapp config container set \
+                  --name mywebapp-dev \
+                  --resource-group my-rg \
+                  --docker-custom-image-name assessment.azurecr.io/nodeapp:$(Build.BuildId) \
+                  --docker-registry-server-url https://assessment.azurecr.io \
+                  --docker-registry-server-user $(DOCKER_USER) \
+                  --docker-registry-server-password $(DOCKER_PASS)

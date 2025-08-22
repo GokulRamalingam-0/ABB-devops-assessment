@@ -171,3 +171,4 @@ stages:
 
                     # (Optional) Verify rollout explicitly
                     kubectl rollout status deploy/nodeapp-prod-deployment -n default --timeout=180s
+                    kubectl get pods,svc -o wide

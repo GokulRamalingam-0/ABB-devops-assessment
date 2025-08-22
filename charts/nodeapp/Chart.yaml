@@ -1,0 +1,13 @@
+apiVersion: v2
+name: nodeapp
+description: A Helm chart for deploying Node.js app on AKS
+type: application
+version: 0.1.0         # Chart version (bump when you change chart templates/structure)
+appVersion: "4"        # Your app version (usually matches image tag)
+maintainers:
+  - name: Gokul
+keywords:
+  - node
+  - aks
+  - helm
+  - kubernetes

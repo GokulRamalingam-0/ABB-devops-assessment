@@ -137,3 +137,40 @@ stages:
                 --docker-registry-server-url https://assessment.azurecr.io \
                 --docker-registry-server-user $(DOCKER_USER) \
                 --docker-registry-server-password $(DOCKER_PASS)
+
+# ------------------- Deploy to AKS (PROD, with approvals via Environment) -------------------
+  - stage: deploy_prod
+    displayName: Deploy to AKS (Prod)
+    dependsOn: push
+    condition: succeeded()
+    jobs:
+      - deployment: deploy_prod
+        displayName: Helm deploy to AKS
+        environment:
+          name: prod                      # 👈 Must match your Environment name in Azure DevOps
+          resourceType: Kubernetes        # optional but nice if you've linked an AKS resource
+          #resourceName: your-aks-resource-name  # optional: only if you added this resource under the 'prod' environment
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+
+                - script: |
+                    # Authenticate and fetch kubeconfig for AKS
+                    az aks get-credentials \
+                      --resource-group kml_rg_main-dae14b43fd534229 \
+                      --name ${env:AKS_CLUSTER} \
+                      --overwrite-existing
+
+                    # Deploy with Helm (wait & rollback on failure)
+                    helm upgrade --install nodeapp-prod ./charts/nodeapp \
+                      --namespace default \
+                      --create-namespace \
+                      --set image.repository=$(registry)/$(repository) \
+                      --set image.tag=$(tag) \
+                      --set service.port=80 \
+                      --set service.targetPort=80 \
+                      --wait --atomic --timeout 5m
+
+                    # (Optional) Verify rollout explicitly
+                    kubectl rollout status deploy/nodeapp-prod-deployment -n default --timeout=180s

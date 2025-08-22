@@ -130,13 +130,7 @@ stages:
         displayName: "Deploy container to Azure Web App"
         steps:
           - script: |
-              az webapp config container set \
-                --name nodeapp \
-                --resource-group ${env:RG_NAME} \
-                --docker-custom-image-name assessment.azurecr.io/nodeapp:$(Build.BuildId) \
-                --docker-registry-server-url https://assessment.azurecr.io \
-                --docker-registry-server-user $(DOCKER_USER) \
-                --docker-registry-server-password $(DOCKER_PASS)
+              az webapp config container set --name nodejs --resource-group ${env:RG_NAME} --docker-custom-image-name assessment.azurecr.io/nodeapp:$(Build.BuildId) --docker-registry-server-url https://assessment.azurecr.io --docker-registry-server-user $(DOCKER_USER) --docker-registry-server-password $(DOCKER_PASS)
 
 # ------------------- Deploy to AKS (PROD, with approvals via Environment) -------------------
   - stage: deploy_prod

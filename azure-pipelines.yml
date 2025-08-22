@@ -119,8 +119,3 @@ stages:
               docker tag $(repository):$(tag) $(registry)/$(repository):$(tag)
               docker push $(registry)/$(repository):$(tag)
             displayName: Tag & Push
-
-         
-      
-
-

@@ -132,7 +132,7 @@ stages:
           - script: |
               az webapp config container set \
                 --name nodeapp \
-                --resource-group kml_rg_main-dae14b43fd534229 \
+                --resource-group ${env:RG_NAME} \
                 --docker-custom-image-name assessment.azurecr.io/nodeapp:$(Build.BuildId) \
                 --docker-registry-server-url https://assessment.azurecr.io \
                 --docker-registry-server-user $(DOCKER_USER) \
@@ -154,11 +154,12 @@ stages:
           runOnce:
             deploy:
               steps:
-
+                - checkout: self
+                
                 - script: |
                     # Authenticate and fetch kubeconfig for AKS
                     az aks get-credentials \
-                      --resource-group kml_rg_main-dae14b43fd534229 \
+                      --resource-group ${env:RG_NAME} \
                       --name ${env:AKS_CLUSTER} \
                       --overwrite-existing
 

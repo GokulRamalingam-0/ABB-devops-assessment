@@ -61,7 +61,7 @@ stages:
 
     # run tests and output JUnit XML named test-results.xml
       - script: |
-          npm test -- --ci --reporter=junit --reporter-options "mochafile=test-results.xml"
+          npm test -- --reporter mocha-junit-reporter --reporter-options mochaFile=test-results.xml
         displayName: Execute tests
 
     # publish results so they appear in the Tests tab

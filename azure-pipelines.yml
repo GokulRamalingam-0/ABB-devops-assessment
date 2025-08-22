@@ -137,6 +137,8 @@ stages:
     displayName: Deploy to AKS (Prod)
     dependsOn: push
     condition: succeeded()
+    pool:
+      name: default
     jobs:
       - deployment: deploy_prod
         displayName: Helm deploy to AKS

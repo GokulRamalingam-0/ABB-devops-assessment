@@ -123,6 +123,8 @@ stages:
     displayName: "Deploy to Azure Web App (Dev)"
     dependsOn: push
     condition: succeeded()
+    pool:
+      name: default
     jobs:
       - job: deploy_dev
         displayName: "Deploy container to Azure Web App"

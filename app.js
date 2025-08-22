@@ -3,7 +3,7 @@ const express = require('express');
 const os       = require('os');
 
 const app  = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 80;
 
 /* Main route */
 app.get('/', (_, res) => {

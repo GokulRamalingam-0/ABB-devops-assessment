@@ -129,17 +129,11 @@ stages:
       - job: deploy_dev
         displayName: "Deploy container to Azure Web App"
         steps:
-          - task: AzureCLI@2
-            displayName: "Configure Web App container"
-            inputs:
-              azureSubscription: ''   # leave blank since no SC in KodeKloud
-              scriptType: bash
-              scriptLocation: inlineScript
-              inlineScript: |
-                az webapp config container set \
-                  --name mywebapp-dev \
-                  --resource-group my-rg \
-                  --docker-custom-image-name assessment.azurecr.io/nodeapp:$(Build.BuildId) \
-                  --docker-registry-server-url https://assessment.azurecr.io \
-                  --docker-registry-server-user $(DOCKER_USER) \
-                  --docker-registry-server-password $(DOCKER_PASS)
+          - script: |
+              az webapp config container set \
+                --name nodeapp \
+                --resource-group kml_rg_main-dae14b43fd534229 \
+                --docker-custom-image-name assessment.azurecr.io/nodeapp:$(Build.BuildId) \
+                --docker-registry-server-url https://assessment.azurecr.io \
+                --docker-registry-server-user $(DOCKER_USER) \
+                --docker-registry-server-password $(DOCKER_PASS)

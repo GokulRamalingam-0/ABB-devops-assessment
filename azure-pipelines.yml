@@ -121,7 +121,7 @@ stages:
 #------------------- Deploy to Web App (Dev) ---------------------------
   - stage: deploy_dev
     displayName: "Deploy to Azure Web App (Dev)"
-    dependsOn: build
+    dependsOn: push
     condition: succeeded()
     jobs:
       - job: deploy_dev

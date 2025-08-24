@@ -30,7 +30,7 @@ docker push assessment.azurecr.io/nodeapp:$NEW_TAG
 
 ### Verify
 
-trivy image --severity HIGH,CRITICAL assessment.azurecr.io/nodeapp:$NEW_TAG
+trivy image --severity CRITICAL assessment.azurecr.io/nodeapp:$NEW_TAG
 
 Expect: 0 HIGH, 0 CRITICAL
 

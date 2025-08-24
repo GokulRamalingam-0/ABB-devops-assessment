@@ -127,7 +127,7 @@ stages:
         displayName: "Deploy container to Azure Web App"
         steps:
           - script: |
-              az webapp config container set --name nodejs --resource-group kml_rg_main-167d6474acbb46c7 --docker-custom-image-name assessment.azurecr.io/nodeapp:$(Build.BuildId) --docker-registry-server-url https://assessment.azurecr.io --docker-registry-server-user $(DOCKER_USER) --docker-registry-server-password $(DOCKER_PASS)
+              az webapp config container set --name nodejs --resource-group kml_rg_main-9c8095df1c214804 --docker-custom-image-name assessment.azurecr.io/nodeapp:$(Build.BuildId) --docker-registry-server-url https://assessment.azurecr.io --docker-registry-server-user $(DOCKER_USER) --docker-registry-server-password $(DOCKER_PASS)
 
 # ------------------- Deploy to AKS (PROD, with approvals via Environment) -------------------
   - stage: deploy_prod
@@ -151,8 +151,8 @@ stages:
                 - script: |
                     # Authenticate and fetch kubeconfig for AKS
                     az aks get-credentials \
-                      --resource-group kml_rg_main-167d6474acbb46c7 \
-                      --name many-dogfish-aks \
+                      --resource-group kml_rg_main-9c8095df1c214804 \
+                      --name sought-ewe-aks \
                       --overwrite-existing
 
                     # Deploy with Helm (wait & rollback on failure)

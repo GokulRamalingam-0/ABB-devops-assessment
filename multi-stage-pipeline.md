@@ -55,6 +55,7 @@ This repo contains:
 
 2. After Configuring Env Variables for Docker Credentails
 <img width="1600" height="770" alt="image" src="https://github.com/user-attachments/assets/3cce374b-e43c-4b59-86a9-a5ec815580e5" />
+<img width="1897" height="888" alt="image" src="https://github.com/user-attachments/assets/889d5f73-cfa0-4524-9f08-26ccd4aef15b" />
 
 ## Screenshots
 

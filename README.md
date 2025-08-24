@@ -9,6 +9,7 @@ This repository contains a collection of technical notes that support the assess
 - [Mitigations](mitigations.md)
 - [Multi-Stage Pipeline](multi-stage-pipeline.md)
 - [Monitoring](monitoring.md)
+- [K8s Network Troubleshooting](k8s-network-troubleshooting.md)
 
 ## K8s Deployments
 

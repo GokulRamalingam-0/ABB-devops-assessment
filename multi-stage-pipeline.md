@@ -6,7 +6,6 @@
 
 ## 📑 Table of Contents
 - [Overview](#overview)
-- [Repository Structure](#repository-structure)
 - [Prerequisites](#prerequisites)
 - [Pipeline Stages](#pipeline-stages)
 - [Secrets & Security](#secrets--security)
@@ -19,21 +18,6 @@ This repo contains:
 * **Application code** – sample Node.js API  
 * **CI/CD pipeline** – multi-stage YAML (`azure-pipelines.yml`)  
 * **Container assets** – `Dockerfile`, Helm chart, Terraform for AKS  
-* **Docs** – markdown files that satisfy each assessment task
-
----
-
-## Repository Structure
-
-| Path | Purpose |
-|------|---------|
-| `azure-pipelines.yml` | Main multi-stage pipeline |
-| `Dockerfile` | Builds the application image |
-| `charts/nodeapp/` | Helm chart for AKS deployment |
-| `terraform/aks-cluster.tf` | Terraform to provision AKS with Azure Monitor |
-| `docs/` | Task-specific deliverables (branching strategy, cost report, etc.) |
-| `scripts/` | Helper scripts & KQL queries |
-| `README.md` | This file |
 
 ---
 

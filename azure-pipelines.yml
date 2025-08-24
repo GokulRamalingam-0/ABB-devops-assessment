@@ -151,8 +151,8 @@ stages:
                 - script: |
                     # Authenticate and fetch kubeconfig for AKS
                     az aks get-credentials \
-                      --resource-group kml_rg_main-9c8095df1c214804 \
-                      --name sought-ewe-aks \
+                      --resource-group kml_rg_main-9fb6b81317d34335 \
+                      --name wired-bird-aks \
                       --overwrite-existing
 
                     # Deploy with Helm (wait & rollback on failure)

@@ -8,8 +8,8 @@
 - [Overview](#overview)
 - [Prerequisites](#prerequisites)
 - [Pipeline Stages](#pipeline-stages)
-- [Secrets & Security](#secrets--security)
 - [Troubleshooting](#troubleshooting)
+- [Screenshots](#screenshots)
 
 ---
 
@@ -49,7 +49,7 @@ This repo contains:
 | **deploy_prod** | Controlled release to Production on AKS behind an approval gate. | `az aks get-credentials` ➜ `helm upgrade --install` with `--wait --atomic` ➜ `kubectl rollout status`. | Runs after **push** only after an approver approves the `prod` environment. |
 
 
-## Screenshots of Pipeline Results
+## Screenshots
 
 1. **Pipeline Result**
 ![Multi-stage-Pipeline](https://github.com/user-attachments/assets/ddbaf1f0-8c45-4ad2-9d98-31e128b6ab8e)

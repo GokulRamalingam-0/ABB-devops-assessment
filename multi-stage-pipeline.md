@@ -8,15 +8,9 @@
 - [Overview](#overview)
 - [Repository Structure](#repository-structure)
 - [Prerequisites](#prerequisites)
-- [Quick Start](#quick-start)
 - [Pipeline Stages](#pipeline-stages)
 - [Secrets & Security](#secrets--security)
-- [Infrastructure-as-Code](#infrastructure-as-code)
-- [Monitoring & Logging](#monitoring--logging)
 - [Troubleshooting](#troubleshooting)
-- [Roadmap](#roadmap)
-- [Contributing](#contributing)
-- [License](#license)
 
 ---
 
@@ -59,4 +53,14 @@ This repo contains:
 
 ---
 
-## Quick Start
+## 🔄 Pipeline Stages
+
+| Stage | Purpose | Key tasks / commands | Trigger & Gates |
+|-------|---------|----------------------|-----------------|
+| **build** | Compile & package the app into a container image. | `Docker@2` builds `assessment.azurecr.io/nodeapp:$(BuildId)` → `docker save` ➜ publish `image.tar.gz`. | First stage; stops on any Docker build error. |
+| **test** | Run unit tests to validate code quality before promotion. | `npm install` → `npm test` with *mocha-junit-reporter* ➜ `PublishTestResults@2`. | Runs after **build**; fails on any failing test. |
+| **scan** | Enforce container security early. | Re-load `image.tar.gz`, run **Trivy** `--severity CRITICAL --exit-code 1`. | Executes only if **test** succeeds; blocks on critical CVEs. |
+| **push** | Publish the verified image to Azure Container Registry. | `docker login` (secrets `$(DOCKER_USER)` / `$(DOCKER_PASS)`) ➜ `docker tag` ➜ `docker push`. | Runs on successful **scan**. |
+| **deploy_dev** | Continuous delivery to a Dev environment (Web App). | `az webapp config container set` to pull the new tag into Web App **nodejs**. | Auto-deploys after **push**; no manual approval. |
+| **deploy_prod** | Controlled release to Production on AKS behind an approval gate. | `az aks get-credentials` ➜ `helm upgrade --install` with `--wait --atomic` ➜ `kubectl rollout status`. | Runs after **push** only after an approver approves the `prod` environment. |
+

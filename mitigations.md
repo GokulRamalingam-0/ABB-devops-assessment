@@ -3,9 +3,8 @@ _Trivy scan on `assessment.azurecr.io/nodeapp:2` – 2025-08-24_
 
 | CVE / Advisory | Why it appears | Risk | Mitigation | Owner | Deadline |
 |---|---|---|---|---|---|
-| **CVE-2024-26141** (libxml2) | Shipped in Alpine 3.18 layers of **node:20-alpine** | XXE → RCE | Re-base to **node:20.19.2-alpine3.20** (patched) and rebuild | DevOps | 2025-09-01 |
-| **CVE-2024-28890** (OpenSSL) | `openssl` 3.1.0 in Alpine 3.18 | MITM | Re-base as above (OpenSSL 3.1.3+) | DevOps | 2025-09-01 |
-| **GHSA-w7f2-m5pq-j9w6** (`jsonwebtoken` 8.5.1) | App dependency pinned to 8.x | Token forgery / signature bypass | `npm install jsonwebtoken@^9.0.2 --save` and retest | Backend | 2025-08-28 |
+| **CVE-2024-26141** (libxml2) | Shipped in Alpine 3.18 layers of **node:20-alpine** | XXE → RCE | Re-base to **node:20.19.2-alpine3.20** (patched) and rebuild | DevOps | 2025-08-24 |
+| **CVE-2024-28890** (OpenSSL) | `openssl` 3.1.0 in Alpine 3.18 | MITM | Re-base as above (OpenSSL 3.1.3+) | DevOps | 2025-08-24 |
 
 ---
 
@@ -42,7 +41,6 @@ npm install jsonwebtoken@^9.0.2 --save
 npm audit fix
 npm test # ensure all tests pass
 
-
 ---
 
 ## 3. Continuous Controls
@@ -58,7 +56,6 @@ npm test # ensure all tests pass
 CVE-YYYY-ZZZZ (nghttp2 1.52) – upstream fix not yet released
 Compensating control: AKS network-policy blocks external HTTP/2 traffic
 Re-evaluate next sprint
-
 
 ---
 

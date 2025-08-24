@@ -10,6 +10,7 @@ This repository contains a collection of technical notes that support the assess
 - [Multi-Stage Pipeline](multi-stage-pipeline.md)
 - [Monitoring](monitoring.md)
 - [K8s Network Troubleshooting](k8s-network-troubleshooting.md)
+- [Cost Optimization Steps](cost-optimization.md)
 
 ## K8s Deployments
 

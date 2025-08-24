@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="Mocha Tests" time="0.002" tests="1" failures="0">
-  <testsuite name="Root Suite" timestamp="2025-08-21T03:35:29" tests="0" time="0.000" failures="0">
-  </testsuite>
-  <testsuite name="sanity check" timestamp="2025-08-21T03:35:29" tests="1" file="E:\ABB Assignment\ABB-devops-assessment\test\app.test.js" time="0.001" failures="0">
-    <testcase name="sanity check adds numbers" time="0.000" classname="adds numbers">
-    </testcase>
-  </testsuite>
-</testsuites>

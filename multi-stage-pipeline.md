@@ -48,6 +48,14 @@ This repo contains:
 | **deploy_dev** | Continuous delivery to a Dev environment (Web App). | `az webapp config container set` to pull the new tag into Web App **nodejs**. | Auto-deploys after **push**; no manual approval. |
 | **deploy_prod** | Controlled release to Production on AKS behind an approval gate. | `az aks get-credentials` ➜ `helm upgrade --install` with `--wait --atomic` ➜ `kubectl rollout status`. | Runs after **push** only after an approver approves the `prod` environment. |
 
+## Troubleshooting
+
+1. Before Configuring Env variables for Docker Credentials
+<img width="1600" height="751" alt="image" src="https://github.com/user-attachments/assets/0afd88d5-2c7f-4c00-a074-ddf510914e4c" />
+
+2. After Configuring Env Variables for Docker Credentails
+
+
 
 ## Screenshots
 
